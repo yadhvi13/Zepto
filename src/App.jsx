@@ -21,6 +21,7 @@ export default function App() {
   const [cookingActive, setCookingActive] = useState(false);
   const [voiceActive, setVoiceActive] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const [soundEnabled, setSoundEnabled] = useState(true);
 
   // MERN Auth & Profile states
@@ -247,6 +248,9 @@ export default function App() {
           setSoundEnabled={setSoundEnabled}
           userPhone={user.phone}
           onLogout={handleLogout}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          handleSearchRecipe={handleSearchRecipe}
         />
 
         {/* Dynamic Views routing */}
@@ -274,6 +278,8 @@ export default function App() {
                 setVoiceActive={setVoiceActive}
                 soundEnabled={soundEnabled}
                 onSearchRecipe={handleSearchRecipe}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
               />
               
               <Categories 
@@ -289,6 +295,8 @@ export default function App() {
                 addToCart={addToCart}
                 updateQuantity={updateQuantity}
                 soundEnabled={soundEnabled}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
               />
             </>
           )}

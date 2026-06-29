@@ -13,7 +13,10 @@ export default function Navbar({
   soundEnabled,
   setSoundEnabled,
   userPhone,
-  onLogout
+  onLogout,
+  searchQuery,
+  setSearchQuery,
+  handleSearchRecipe
 }) {
   const [profileOpen, setProfileOpen] = useState(false);
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -44,6 +47,42 @@ export default function Navbar({
           <span className="block text-[9px] text-accent-violet tracking-widest uppercase font-semibold">Instant & Smart</span>
         </div>
       </div>
+
+      {/* Search Bar in Navbar */}
+      <form 
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (soundEnabled) sfx.play('click');
+          handleSearchRecipe(searchQuery);
+        }}
+        className="flex-grow max-w-xs md:max-w-sm lg:max-w-md mx-2 md:mx-6 relative"
+      >
+        <div className="relative flex items-center bg-slate-950/5 border border-slate-200/40 rounded-full px-3 py-1.5 focus-within:bg-white focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10 transition-all shadow-sm">
+          {/* Z logo icon inside the search bar on the left (hidden on mobile viewports) */}
+          <div className="hidden sm:flex w-6 h-6 rounded-md bg-white border border-slate-200/50 shadow-sm items-center justify-center p-0.5 mr-2 shrink-0 select-none">
+            <img src={zeptoLogo} alt="Z" className="w-full h-full object-contain" />
+          </div>
+          <input 
+            type="text" 
+            placeholder='Search "milk", "eggs", "chicken"...' 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-transparent border-none outline-none text-slate-850 placeholder-slate-400 text-xs md:text-sm font-semibold pr-6"
+          />
+          {searchQuery && (
+            <button 
+              type="button" 
+              onClick={() => {
+                if (soundEnabled) sfx.play('click');
+                setSearchQuery('');
+              }}
+              className="absolute right-3.5 text-slate-400 hover:text-slate-600 font-bold text-xs"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+      </form>
 
       {/* Nav Actions */}
       <div className="hidden md:flex items-center gap-6">
@@ -109,7 +148,7 @@ export default function Navbar({
           className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-primary to-accent-violet hover:opacity-90 px-4 py-2 rounded-full text-white font-semibold transition-all shadow-lg shadow-primary/15 cursor-pointer relative animate-fade-in"
         >
           <ShoppingCart className="w-4 h-4" />
-          <span className="hidden sm:inline">${totalPrice.toFixed(0)}</span>
+          <span className="hidden sm:inline">₹{totalPrice.toFixed(0)}</span>
           {totalItems > 0 && (
             <span className="absolute -top-1.5 -right-1.5 bg-pink-accent text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border border-white animate-bounce">
               {totalItems}

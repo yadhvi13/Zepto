@@ -18,7 +18,7 @@ export default function Categories({ selectedCategory, setSelectedCategory, soun
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-extrabold text-slate-900">Browse Categories</h2>
-          <p className="text-xs md:text-sm text-slate-500 font-semibold">Fresh items delivered in minutes</p>
+          <p className="text-xs md:text-sm text-slate-500 font-semibold">Fresh items delivered in 10 minutes</p>
         </div>
         {selectedCategory && (
           <button
@@ -30,18 +30,24 @@ export default function Categories({ selectedCategory, setSelectedCategory, soun
         )}
       </div>
 
-      <div className="flex items-center gap-4 overflow-x-auto pb-4 scrollbar-none no-scrollbar">
-        {/* All Category Pill */}
+      <div className="flex items-center gap-6 overflow-x-auto pb-4 scrollbar-none no-scrollbar py-2">
+        {/* All Category Bubble */}
         <button
           onClick={() => handleCategorySelect(null)}
-          className={`flex items-center gap-2 px-6 py-3.5 rounded-2xl border text-sm font-bold shrink-0 cursor-pointer transition-all duration-300 ${
-            selectedCategory === null
-              ? 'bg-gradient-to-r from-primary to-accent-violet border-transparent text-white shadow-lg shadow-primary/20 scale-102'
-              : 'bg-slate-950/5 border-slate-950/10 text-slate-750 hover:bg-slate-950/10 hover:text-slate-950'
-          }`}
+          className="flex flex-col items-center gap-2.5 shrink-0 cursor-pointer group text-center focus:outline-none"
         >
-          <span>🔥</span>
-          <span>All Items</span>
+          <div className={`w-20 h-20 rounded-full flex items-center justify-center border transition-all duration-300 shadow-sm ${
+            selectedCategory === null
+              ? 'bg-gradient-to-tr from-primary to-accent-violet border-transparent text-white ring-4 ring-primary/20 scale-105 shadow-md shadow-primary/10'
+              : 'bg-white/80 backdrop-blur border-slate-200 text-slate-700 hover:scale-105 hover:border-slate-350'
+          }`}>
+            <span className="text-3xl select-none">🔥</span>
+          </div>
+          <span className={`text-xs font-bold transition-colors ${
+            selectedCategory === null ? 'text-primary font-black' : 'text-slate-750'
+          }`}>
+            All Items
+          </span>
         </button>
 
         {/* Categories from products list */}
@@ -51,14 +57,27 @@ export default function Categories({ selectedCategory, setSelectedCategory, soun
             <button
               key={cat.name}
               onClick={() => handleCategorySelect(cat.name)}
-              className={`flex items-center gap-2.5 px-6 py-3.5 rounded-2xl border text-sm font-bold shrink-0 cursor-pointer transition-all duration-300 ${
-                isSelected
-                  ? `bg-gradient-to-r from-primary to-pink-accent border-transparent text-white shadow-lg shadow-primary/20 scale-102`
-                  : `bg-slate-950/5 border-slate-950/10 text-slate-750 hover:bg-slate-950/10 hover:text-slate-950`
-              }`}
+              className="flex flex-col items-center gap-2.5 shrink-0 cursor-pointer group text-center focus:outline-none"
             >
-              <span className="text-lg">{cat.emoji}</span>
-              <span>{cat.name}</span>
+              <div className={`w-20 h-20 rounded-full overflow-hidden flex items-center justify-center border transition-all duration-300 shadow-sm relative ${
+                isSelected
+                  ? `border-primary ring-4 ring-primary/20 scale-105 shadow-md shadow-primary/10`
+                  : `border-slate-200 hover:scale-105 hover:border-slate-350`
+              }`}>
+                {/* Real Category Image */}
+                <img 
+                  src={cat.image} 
+                  alt={cat.name} 
+                  className="w-full h-full object-cover select-none" 
+                />
+                {/* Semi-transparent gradient overlay color theme */}
+                <div className={`absolute inset-0 bg-gradient-to-t ${cat.color} mix-blend-multiply opacity-35`} />
+              </div>
+              <span className={`text-xs font-bold transition-colors ${
+                isSelected ? 'text-primary font-black' : 'text-slate-750'
+              }`}>
+                {cat.name}
+              </span>
             </button>
           );
         })}

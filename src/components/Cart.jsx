@@ -140,10 +140,16 @@ export default function Cart({
                     className="flex items-center justify-between p-3 rounded-2xl bg-slate-100 border border-slate-200/50 hover:border-slate-350 transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl select-none">{item.emoji}</span>
+                      {item.image ? (
+                        <div className="w-10 h-10 rounded-lg overflow-hidden border border-slate-200/50 shrink-0 shadow-sm">
+                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        </div>
+                      ) : (
+                        <span className="text-2xl select-none shrink-0">{item.emoji}</span>
+                      )}
                       <div>
                         <h4 className="text-sm font-bold text-slate-900 leading-tight">{item.name}</h4>
-                        <span className="text-[10px] text-slate-500 font-semibold">${item.price} each</span>
+                        <span className="text-[10px] text-slate-500 font-semibold">₹{item.price} each</span>
                       </div>
                     </div>
 

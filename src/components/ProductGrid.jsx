@@ -8,7 +8,9 @@ export default function ProductGrid({
   cart, 
   addToCart, 
   updateQuantity, 
-  soundEnabled 
+  soundEnabled,
+  searchQuery,
+  setSearchQuery
 }) {
 
   // Play sounds
@@ -36,10 +38,15 @@ export default function ProductGrid({
     return item ? item.quantity : 0;
   };
 
-  // Filtered Products
-  const filteredProducts = selectedCategory 
-    ? products.filter(p => p.category === selectedCategory)
-    : products;
+  // Filtered Products (Categories + Search Queries)
+  const filteredProducts = products.filter(p => {
+    const matchesCategory = selectedCategory ? p.category === selectedCategory : true;
+    const matchesSearch = searchQuery 
+      ? p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        p.category.toLowerCase().includes(searchQuery.toLowerCase())
+      : true;
+    return matchesCategory && matchesSearch;
+  });
 
   // Split into categories for default view
   const deals = products.filter(p => p.originalPrice > p.price && p.category !== "Pantry");
@@ -86,9 +93,9 @@ export default function ProductGrid({
           <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-200/50">
             <div>
               <div className="flex items-baseline gap-1">
-                <span className="text-base font-extrabold text-slate-900">${product.price}</span>
+                <span className="text-base font-extrabold text-slate-900">₹{product.price}</span>
                 {product.originalPrice > product.price && (
-                  <span className="text-xs text-slate-400 line-through">${product.originalPrice}</span>
+                  <span className="text-xs text-slate-400 line-through">₹{product.originalPrice}</span>
                 )}
               </div>
               <span className="text-[9px] text-slate-500 font-semibold uppercase tracking-wider block">10 Min Delivery</span>
@@ -142,13 +149,35 @@ export default function ProductGrid({
     );
   };
 
-  if (selectedCategory) {
+  if (selectedCategory || searchQuery) {
+    const title = searchQuery 
+      ? `Search Results for "${searchQuery}"` 
+      : selectedCategory;
+    const subtitle = searchQuery 
+      ? `${filteredProducts.length} items found` 
+      : `Showing items matching "${selectedCategory}"`;
+
     return (
       <div className="w-full">
-        {renderSection(
-          selectedCategory, 
-          filteredProducts, 
-          `Showing items matching "${selectedCategory}"`
+        {filteredProducts.length > 0 ? (
+          renderSection(title, filteredProducts, subtitle)
+        ) : (
+          <div className="w-full max-w-md mx-auto text-center py-16 px-6 glass-card rounded-3xl border border-slate-200/50 my-8">
+            <span className="text-4xl mb-4 block select-none">🔍</span>
+            <h3 className="text-lg font-extrabold text-slate-900 mb-1">No products found</h3>
+            <p className="text-xs text-slate-655 font-semibold mb-6">
+              We couldn't find anything matching "{searchQuery}". Try searching for milk, eggs, or butter.
+            </p>
+            <button 
+              onClick={() => {
+                if (soundEnabled) sfx.play('click');
+                setSearchQuery('');
+              }}
+              className="px-6 py-2.5 bg-gradient-to-r from-primary to-pink-accent hover:opacity-90 text-white font-bold text-xs rounded-xl shadow-md cursor-pointer transition-all"
+            >
+              Clear Search
+            </button>
+          </div>
         )}
       </div>
     );
