@@ -56,17 +56,86 @@ export default function AiAssistant({
       let aiResponse = {};
 
       if (query.includes('butter chicken')) {
-        // Recipe to Cart trigger
         aiResponse = {
           sender: 'ai',
-          text: "I've fetched the recipe for Butter Chicken! Here are the ingredients. Click below to add all missing items to your cart instantly:",
+          text: "I've fetched the recipe for Classic Butter Chicken! Here are the details and ingredients:",
           recipe: {
             name: "Classic Butter Chicken",
+            servings: "Serves 3 people",
+            prepTime: "Prep: 15 mins",
+            cookTime: "Cook: 20 mins",
+            steps: "1. Marinate chicken breast pieces in yogurt and spices for 30 minutes.\n2. Heat a pan, melt butter block, and sauté chicken pieces until browned.\n3. Add tomato cream mix or chopped fresh tomatoes and milk.\n4. Simmer on medium-low for 15 minutes, serve warm!",
             items: [
-              { id: 'p11', name: 'Chicken Breast (500g)', price: 180, required: true },
-              { id: 'p3', name: 'Amul Salted Butter', price: 56, required: true },
-              { id: 'p12', name: 'Tomato Cream Mix', price: 90, required: true },
-              { id: 'p13', name: 'Indian Butter Chicken Spices', price: 45, required: false } // already owned
+              { id: 'p30', name: 'Butter Block (100g)', price: 295, required: true },
+              { id: 'p26', name: 'Tomatoes (500g)', price: 195, required: true },
+              { id: 'p28', name: 'Whole Milk (1L)', price: 420, required: true }
+            ]
+          }
+        };
+      } else if (query.includes('milk shake') || query.includes('milkshake') || query.includes('shake')) {
+        aiResponse = {
+          sender: 'ai',
+          text: "Here is the recipe for a fresh strawberry milkshake! Cold, thick, and delicious:",
+          recipe: {
+            name: "Fresh Strawberry Milkshake",
+            servings: "Serves 2 people",
+            prepTime: "Prep: 5 mins",
+            cookTime: "Cook: 0 mins",
+            steps: "1. Rinse and hull the fresh organic strawberries.\n2. Blend them with cold whole milk and two scoops of vanilla ice cream.\n3. Blend on high speed until completely smooth and frothy.\n4. Pour into serving glasses and garnish with strawberry slices!",
+            items: [
+              { id: 'p28', name: 'Whole Milk (1L)', price: 420, required: true },
+              { id: 'p8', name: 'Organic Strawberries', price: 380, required: true }
+            ]
+          }
+        };
+      } else if (query.includes('omelette') || query.includes('egg') || query.includes('bhurji')) {
+        aiResponse = {
+          sender: 'ai',
+          text: "Here is the recipe for Masala Egg Omelette! A high-protein breakfast recipe:",
+          recipe: {
+            name: "Masala Egg Omelette",
+            servings: "Serves 1 person",
+            prepTime: "Prep: 5 mins",
+            cookTime: "Cook: 5 mins",
+            steps: "1. Whisk eggs in a bowl with chopped onions, tomatoes, and a pinch of salt.\n2. Melt butter in a heated skillet.\n3. Pour in egg mixture and cook until bottom is set.\n4. Flip and cook other side for 1-2 minutes, serve hot!",
+            items: [
+              { id: 'p31', name: 'Brown Eggs (6 units)', price: 340, required: true },
+              { id: 'p30', name: 'Butter Block (100g)', price: 295, required: true },
+              { id: 'p26', name: 'Tomatoes (500g)', price: 195, required: false }
+            ]
+          }
+        };
+      } else if (query.includes('toast') || query.includes('french toast')) {
+        aiResponse = {
+          sender: 'ai',
+          text: "I've loaded the recipe for Gourmet French Toast! Sweet and buttery breakfast delight:",
+          recipe: {
+            name: "Gourmet French Toast",
+            servings: "Serves 2 people",
+            prepTime: "Prep: 5 mins",
+            cookTime: "Cook: 10 mins",
+            steps: "1. Whisk eggs, milk, and sugar together in a shallow dish.\n2. Dip sandwich bread slices to coat well.\n3. Melt butter in a skillet over medium heat.\n4. Fry bread slices for 2-3 mins on each side until golden, serve hot!",
+            items: [
+              { id: 'p29', name: 'White Sandwich Bread', price: 185, required: true },
+              { id: 'p31', name: 'Brown Eggs (6 units)', price: 340, required: true },
+              { id: 'p28', name: 'Whole Milk (1L)', price: 420, required: true }
+            ]
+          }
+        };
+      } else if (query.includes('salad') || query.includes('spinach')) {
+        aiResponse = {
+          sender: 'ai',
+          text: "Here is the recipe for a super healthy Fresh Strawberry & Spinach Salad:",
+          recipe: {
+            name: "Strawberry Spinach Salad",
+            servings: "Serves 2 people",
+            prepTime: "Prep: 8 mins",
+            cookTime: "Cook: 0 mins",
+            steps: "1. Rinse spinach leaves and strawberries thoroughly.\n2. Slice strawberries and place them over a bed of baby spinach.\n3. Drizzle with olive oil and top with roasted cashews.\n4. Serve fresh!",
+            items: [
+              { id: 'p8', name: 'Organic Strawberries', price: 380, required: true },
+              { id: 'p10', name: 'Pre-Washed Baby Spinach', price: 250, required: true },
+              { id: 'p40', name: 'Cashews', price: 590, required: false }
             ]
           }
         };
@@ -89,17 +158,75 @@ export default function AiAssistant({
           }
         };
       } else {
-        // Conversational Fallback
-        aiResponse = {
-          sender: 'ai',
-          text: `I can help you shop or cook! Try saying: \n1. "I want Butter Chicken" (instantly adds ingredients to cart)\n2. "I have 20 minutes, need dinner" (opens recipes builder)\n3. "Scan my fridge" (opens scanner)`
-        };
+        // Dynamic Recipe Synthesis
+        let searchDish = "";
+        const patterns = [
+          /how to make\s+(.+)/i, 
+          /recipe for\s+(.+)/i, 
+          /i want\s+(.+)/i, 
+          /want\s+(.+)/i, 
+          /make\s+(.+)/i,
+          /show\s+(.+)/i
+        ];
+        
+        for (let regex of patterns) {
+          const match = query.match(regex);
+          if (match && match[1]) {
+            searchDish = match[1].trim();
+            break;
+          }
+        }
+        
+        // If not matching pattern but query is longer than 3 characters, use query directly
+        if (!searchDish && query.length > 3) {
+          searchDish = query.trim();
+        }
+
+        if (searchDish) {
+          const capitalizedDish = searchDish.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+          const matchWords = searchDish.split(' ');
+          let suggestedItems = [];
+          
+          matchWords.forEach(word => {
+            if (word.length > 2) {
+              const matched = products.filter(p => p.name.toLowerCase().includes(word) || p.category.toLowerCase().includes(word));
+              matched.forEach(p => {
+                if (!suggestedItems.some(item => item.id === p.id) && suggestedItems.length < 3) {
+                  suggestedItems.push({ id: p.id, name: p.name, price: p.price, required: true });
+                }
+              });
+            }
+          });
+          
+          if (suggestedItems.length === 0) {
+            // Default essential ingredients
+            suggestedItems.push({ id: 'p28', name: 'Whole Milk (1L)', price: 420, required: true });
+            suggestedItems.push({ id: 'p30', name: 'Butter Block (100g)', price: 295, required: false });
+          }
+
+          aiResponse = {
+            sender: 'ai',
+            text: `Sure! I have generated the cooking recipe details for "${capitalizedDish}":`,
+            recipe: {
+              name: capitalizedDish,
+              servings: "Serves 2 people",
+              prepTime: "Prep: 10 mins",
+              cookTime: "Cook: 15 mins",
+              steps: `1. Prep and measure ingredients.\n2. Gently blend or cook the mixture in a heated saucepan.\n3. Stir continuously on medium heat until smooth and ready.\n4. Plate nicely, serve warm, and enjoy!`,
+              items: suggestedItems
+            }
+          };
+        } else {
+          aiResponse = {
+            sender: 'ai',
+            text: `I can help you shop or cook! Try saying: \n1. "I want Butter Chicken" (instantly adds ingredients to cart)\n2. "I want Strawberry Milkshake" (shows milkshake instructions)\n3. "Scan my fridge" (opens scanner)`
+          };
+        }
       }
 
       setMessages(prev => [...prev, aiResponse]);
       setIsTyping(false);
 
-      // Run action triggers if any
       if (aiResponse.action) {
         setTimeout(() => aiResponse.action(), 800);
       }
@@ -178,6 +305,12 @@ export default function AiAssistant({
                     {/* Interactive Recipe Widget */}
                     {msg.recipe && (
                       <div className="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-200/50 space-y-3 text-left shadow-sm">
+                        {/* Servings & Duration details */}
+                        <div className="flex justify-between items-center pb-2 border-b border-slate-200/50 text-[10px] text-slate-500 font-extrabold">
+                          <span>👥 {msg.recipe.servings || 'Serves 2 people'}</span>
+                          <span>⏱️ {msg.recipe.prepTime || 'Prep: 5m'} | {msg.recipe.cookTime || 'Cook: 10m'}</span>
+                        </div>
+
                         <span className="text-[10px] font-black text-pink-accent uppercase tracking-wider block">Recipe Ingredients</span>
                         
                         <div className="space-y-1.5">
@@ -197,6 +330,16 @@ export default function AiAssistant({
                             </div>
                           ))}
                         </div>
+
+                        {/* Step-by-step preparation steps */}
+                        {msg.recipe.steps && (
+                          <div className="pt-2 border-t border-slate-200/50 space-y-1.5">
+                            <span className="text-[10px] font-black text-pink-accent uppercase tracking-wider block">How to Prepare</span>
+                            <p className="text-[10px] text-slate-600 font-bold leading-relaxed whitespace-pre-line">
+                              {msg.recipe.steps}
+                            </p>
+                          </div>
+                        )}
 
                         <button
                           onClick={() => handleAddRecipeToCart(msg.recipe.items)}

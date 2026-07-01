@@ -128,12 +128,16 @@ export default function ProductGrid({
     new Set(categoryProducts.map((p) => p.subcategory).filter(Boolean))
   );
 
-  // Set default active subcategory if not set
+  // Set default active subcategory or reset if switching categories
   useEffect(() => {
-    if (subcategories.length > 0 && !activeSubcategory) {
-      setActiveSubcategory(subcategories[0]);
+    if (subcategories.length > 0) {
+      if (!activeSubcategory || !subcategories.includes(activeSubcategory)) {
+        setActiveSubcategory(subcategories[0]);
+      }
+    } else {
+      setActiveSubcategory(null);
     }
-  }, [subcategories, activeSubcategory]);
+  }, [selectedCategory, subcategories, activeSubcategory]);
 
   // Filtered Products based on:
   // - Category (main)
