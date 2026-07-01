@@ -267,8 +267,90 @@ const initialProducts = [
     image: "https://images.unsplash.com/photo-1582966772680-860e372bb558?auto=format&fit=crop&w=300&h=300&q=80",
     fridgeStock: 0,
     fridgeQuantityText: "None"
+  },
+  {
+    id: "p19",
+    name: "Multivitamin Daily Health Capsules (60pk)",
+    price: 9.99,
+    originalPrice: 12.99,
+    category: "Pharmacy",
+    rating: 4.8,
+    reviews: 150,
+    badge: "Popular",
+    emoji: "💊",
+    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=300&h=300&q=80",
+    fridgeStock: 0,
+    fridgeQuantityText: "None"
+  },
+  {
+    id: "p20",
+    name: "Fast-Relief Pain Spray (150ml)",
+    price: 5.49,
+    originalPrice: 6.99,
+    category: "Pharmacy",
+    rating: 4.7,
+    reviews: 84,
+    emoji: "💨",
+    image: "https://images.unsplash.com/photo-1607619056574-7b8d304f3c6f?auto=format&fit=crop&w=300&h=300&q=80",
+    fridgeStock: 0,
+    fridgeQuantityText: "None"
+  },
+  {
+    id: "p21",
+    name: "Premium Grain-Free Dog Food (1.2kg)",
+    price: 14.99,
+    originalPrice: 18.99,
+    category: "Pet Care",
+    rating: 4.9,
+    reviews: 220,
+    badge: "Top Rated",
+    emoji: "🐕",
+    image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=300&h=300&q=80",
+    fridgeStock: 0,
+    fridgeQuantityText: "None"
+  },
+  {
+    id: "p22",
+    name: "Interactive Cat Toy Mouse",
+    price: 3.99,
+    originalPrice: 4.99,
+    category: "Pet Care",
+    rating: 4.6,
+    reviews: 95,
+    emoji: "🐭",
+    image: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=300&h=300&q=80",
+    fridgeStock: 0,
+    fridgeQuantityText: "None"
+  },
+  {
+    id: "p23",
+    name: "Ultra-Soft Gentle Baby Wipes (80pk)",
+    price: 4.49,
+    originalPrice: 5.99,
+    category: "Baby Care",
+    rating: 4.8,
+    reviews: 310,
+    badge: "Essential",
+    emoji: "🧻",
+    image: "https://images.unsplash.com/photo-1617331140180-e8262094733a?auto=format&fit=crop&w=300&h=300&q=80",
+    fridgeStock: 0,
+    fridgeQuantityText: "None"
+  },
+  {
+    id: "p24",
+    name: "Premium Dry-Comfort Diapers (M - 24pk)",
+    price: 12.99,
+    originalPrice: 15.99,
+    category: "Baby Care",
+    rating: 4.7,
+    reviews: 178,
+    emoji: "👶",
+    image: "https://images.unsplash.com/photo-1522850959074-b7882c8f85f1?auto=format&fit=crop&w=300&h=300&q=80",
+    fridgeStock: 0,
+    fridgeQuantityText: "None"
   }
 ];
+
 
 // Initialize and seed MongoDB database
 const initDb = async () => {

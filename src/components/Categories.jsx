@@ -14,7 +14,7 @@ export default function Categories({ selectedCategory, setSelectedCategory, soun
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 mb-12">
+    <div id="categories-section" className="w-full max-w-7xl mx-auto px-6 mb-12">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-extrabold text-slate-900">Browse Categories</h2>

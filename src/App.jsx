@@ -280,6 +280,7 @@ export default function App() {
                 onSearchRecipe={handleSearchRecipe}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
+                setSelectedCategory={setSelectedCategory}
               />
               
               <Categories 
