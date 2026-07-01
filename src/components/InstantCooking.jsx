@@ -81,6 +81,43 @@ const recipeDatabase = [
       { name: "Bread", emoji: "🍞", qty: "3 slices" },
       { name: "Butter", emoji: "🧈", qty: "20 g" }
     ]
+  },
+  {
+    id: "r6",
+    name: "Fresh Strawberry Milkshake",
+    time: 10,
+    emoji: "🍓",
+    description: "A creamy and sweet classic strawberry milkshake made with fresh strawberries and milk.",
+    ingredients: [
+      { name: "Strawberry", emoji: "🍓", qty: "100 g" },
+      { name: "Milk", emoji: "🥛", qty: "250 ml" }
+    ]
+  },
+  {
+    id: "r7",
+    name: "Strawberry Banana Yogurt Smoothie",
+    time: 15,
+    emoji: "🥣",
+    description: "Thick and healthy breakfast smoothie bowl with fresh strawberries, banana wheels, yogurt, and milk.",
+    ingredients: [
+      { name: "Strawberry", emoji: "🍓", qty: "150 g" },
+      { name: "Banana", emoji: "🍌", qty: "1 unit" },
+      { name: "Milk", emoji: "🥛", qty: "100 ml" },
+      { name: "Yogurt", emoji: "🥣", qty: "150 g" }
+    ]
+  },
+  {
+    id: "r8",
+    name: "Strawberry Spinach Salad",
+    time: 10,
+    emoji: "🥗",
+    description: "Fresh spinach leaves and sweet sliced strawberries tossed with olive oil and a pinch of salt.",
+    ingredients: [
+      { name: "Strawberry", emoji: "🍓", qty: "100 g" },
+      { name: "Spinach", emoji: "🥬", qty: "100 g" },
+      { name: "Oil", emoji: "🫒", qty: "1 tbsp" },
+      { name: "Salt", emoji: "🧂", qty: "1 pinch" }
+    ]
   }
 ];
 
@@ -137,6 +174,9 @@ export default function InstantCooking({
     if (lower.includes('yogurt')) return products.find(p => p.id === 'p32');
     if (lower.includes('cashew')) return products.find(p => p.id === 'p40');
     if (lower.includes('cookie')) return products.find(p => p.id === 'p38');
+    if (lower.includes('strawberry') || lower.includes('strawberries')) return products.find(p => p.id === 'p8');
+    if (lower.includes('banana') || lower.includes('bananas')) return products.find(p => p.id === 'p25');
+    if (lower.includes('spinach')) return products.find(p => p.id === 'p10');
     // Generic match
     return products.find(p => p.name.toLowerCase().includes(lower));
   };
@@ -420,7 +460,7 @@ export default function InstantCooking({
                                     </span>
                                   ) : (
                                     <span className="flex items-center gap-1 text-[9px] font-black text-purple-600 uppercase tracking-wider bg-purple-50 px-2 py-0.5 rounded-full border border-purple-100">
-                                      + Buy ₹{match ? (match.price * 85).toFixed(0) : "30"}
+                                      + Buy ₹{match ? match.price : "30"}
                                     </span>
                                   )}
                                 </div>

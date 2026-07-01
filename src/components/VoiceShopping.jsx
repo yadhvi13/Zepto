@@ -98,28 +98,46 @@ export default function VoiceShopping({
     const textLower = text.toLowerCase();
     const matches = [];
 
-    // Simple keyword mapping
+    // Simple keyword mapping with correct DB ids
     const keywordMap = [
-      { keywords: ['milk'], id: 'p1' },
-      { keywords: ['egg', 'eggs'], id: 'p2' },
-      { keywords: ['butter'], id: 'p3' },
-      { keywords: ['bread', 'sourdough'], id: 'p4' },
-      { keywords: ['tomato', 'tomatoes'], id: 'p5' },
-      { keywords: ['potato', 'potatoes'], id: 'p6' },
-      { keywords: ['banana', 'bananas'], id: 'p7' },
-      { keywords: ['apple', 'apples'], id: 'p8' },
-      { keywords: ['maggi', 'noodle', 'noodles'], id: 'p9' },
-      { keywords: ['chips', 'lay'], id: 'p10' },
-      { keywords: ['chicken'], id: 'p11' }
+      { keywords: ['milk'], id: 'p28' },
+      { keywords: ['egg', 'eggs'], id: 'p31' },
+      { keywords: ['butter'], id: 'p30' },
+      { keywords: ['bread', 'sourdough'], id: 'p29' },
+      { keywords: ['tomato', 'tomatoes'], id: 'p26' },
+      { keywords: ['banana', 'bananas'], id: 'p25' },
+      { keywords: ['maggi', 'noodle', 'noodles', 'maggie'], id: 'p99' },
+      { keywords: ['chips', 'lay'], id: 'p37' },
+      { keywords: ['cookie', 'cookies'], id: 'p38' },
+      { keywords: ['cashew', 'cashews'], id: 'p40' },
+      { keywords: ['strawberry', 'strawberries'], id: 'p8' },
+      { keywords: ['avocado', 'avocados'], id: 'p9' },
+      { keywords: ['spinach'], id: 'p10' }
     ];
 
     keywordMap.forEach(map => {
       const matchFound = map.keywords.some(kw => textLower.includes(kw));
       if (matchFound) {
         const prod = products.find(p => p.id === map.id);
-        if (prod) {
+        if (prod && !matches.some(m => m.id === prod.id)) {
           matches.push(prod);
         }
+      }
+    });
+
+    // Also do fallback dynamic word matching for any other spoken terms
+    const words = textLower.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, "").split(/\s+/);
+    words.forEach(word => {
+      if (word.length > 2 && !['buy', 'and', 'the', 'for', 'with', 'please', 'need', 'want', 'some', 'give'].includes(word)) {
+        const matchedProds = products.filter(p => 
+          p.name.toLowerCase().includes(word) || 
+          p.category.toLowerCase().includes(word)
+        );
+        matchedProds.forEach(prod => {
+          if (!matches.some(m => m.id === prod.id) && matches.length < 5) {
+            matches.push(prod);
+          }
+        });
       }
     });
 
@@ -259,7 +277,7 @@ export default function VoiceShopping({
                       <span className="text-lg">{item.emoji}</span>
                       <span className="text-sm font-bold text-slate-900">{item.name}</span>
                     </div>
-                    <span className="text-sm font-black text-slate-700">${item.price}</span>
+                    <span className="text-sm font-black text-slate-700">₹{item.price}</span>
                   </div>
                 ))}
               </div>

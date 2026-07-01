@@ -269,16 +269,16 @@ export default function Cart({
               <a href="tel:123" className="px-3 py-1.5 rounded-full bg-slate-950/5 border border-slate-950/10 text-xs font-bold text-slate-655 hover:text-slate-900 cursor-pointer">Call</a>
             </div>
 
-            {/* Cancel Order */}
+            {/* Cancel Order Button */}
             <button 
               onClick={() => {
-                if (soundEnabled) sfx.play('click');
+                if (soundEnabled) sfx.play('remove');
                 setCheckoutStep('idle');
                 clearCart();
               }}
-              className="w-full text-center text-xs text-slate-500 hover:text-slate-700 underline cursor-pointer"
+              className="w-full py-3.5 mt-2 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs tracking-wider uppercase transition-all duration-300 cursor-pointer shadow-lg shadow-rose-500/25 flex items-center justify-center gap-1.5 select-none"
             >
-              Simulate Delivery Finish (Empty Cart)
+              Cancel Order
             </button>
           </div>
         )}
@@ -289,7 +289,7 @@ export default function Cart({
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs text-slate-500 font-semibold">
                 <span>Bag Total</span>
-                <span>${totalPrice}</span>
+                <span>₹{totalPrice}</span>
               </div>
               <div className="flex justify-between text-xs text-slate-500 font-semibold">
                 <span>Delivery Charge</span>
@@ -297,7 +297,7 @@ export default function Cart({
               </div>
               <div className="flex justify-between text-sm font-black text-slate-900 pt-2 border-t border-slate-200/50">
                 <span>Total Amount</span>
-                <span>${totalPrice}</span>
+                <span>₹{totalPrice}</span>
               </div>
             </div>
 
@@ -306,7 +306,7 @@ export default function Cart({
               onClick={handleCheckout}
               className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-primary to-pink-accent hover:opacity-90 text-white font-extrabold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-primary/25 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Checkout & Pay ${totalPrice}
+              Checkout & Pay ₹{totalPrice}
               <ArrowRight className="w-4 h-4" />
             </button>
 

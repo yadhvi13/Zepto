@@ -22,6 +22,17 @@ export default function AiAssistant({
 
   const handleToggle = () => {
     if (soundEnabled) sfx.play('click');
+    if (isOpen) {
+      // Clear/Reset messages and input state when minimized
+      setMessages([
+        {
+          sender: 'ai',
+          text: 'Hey there! 🥦 I am your Zepto AI assistant. Tell me what you want to cook, or ask for a recipe! Try typing "I want Butter Chicken" or "I have 20 minutes, need dinner".'
+        }
+      ]);
+      setInput('');
+      setIsTyping(false);
+    }
     setIsOpen(!isOpen);
   };
 
@@ -128,7 +139,7 @@ export default function AiAssistant({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 50 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="w-[calc(100vw-32px)] sm:w-96 h-[500px] glass-panel rounded-3xl border border-slate-200/50 shadow-2xl flex flex-col mb-4 overflow-hidden"
+            className="w-[calc(100vw-32px)] max-w-[320px] sm:max-w-[380px] h-[400px] sm:h-[500px] glass-panel rounded-3xl border border-slate-200/50 shadow-2xl flex flex-col mb-4 overflow-hidden"
           >
             {/* Header */}
             <div className="p-4 border-b border-slate-200/50 bg-gradient-to-r from-primary/5 to-pink-accent/5 flex items-center justify-between">
@@ -181,7 +192,7 @@ export default function AiAssistant({
                                 {item.name}
                               </span>
                               <span className="text-slate-500 font-bold">
-                                {item.required ? `$${item.price}` : 'Fridge'}
+                                {item.required ? `₹${item.price}` : 'Fridge'}
                               </span>
                             </div>
                           ))}

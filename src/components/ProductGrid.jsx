@@ -50,7 +50,7 @@ function LazyImage({ src, alt, className }) {
   }, [src]);
 
   return (
-    <div className="relative w-full h-full bg-slate-50 flex items-center justify-center overflow-hidden">
+    <div className="relative w-full h-full bg-slate-50 flex items-center justify-center overflow-hidden rounded-2xl">
       {!isLoaded && (
         <div className="absolute inset-0 bg-gradient-to-r from-slate-100 to-slate-200 animate-pulse flex items-center justify-center text-slate-300">
           <span className="text-xs font-semibold">Loading...</span>
@@ -60,7 +60,7 @@ function LazyImage({ src, alt, className }) {
         ref={imgRef}
         alt={alt}
         onLoad={() => setIsLoaded(true)}
-        className={`${className} transition-opacity duration-500 ${
+        className={`${className} transition-opacity duration-500 rounded-2xl ${
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
       />
@@ -184,21 +184,21 @@ export default function ProductGrid({
       <div
         key={product.id}
         onMouseEnter={handleHover}
-        className="bg-white rounded-2xl p-4 flex flex-col justify-between h-[340px] relative border border-slate-100 hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300"
+        className="bg-white rounded-2xl p-2.5 sm:p-4 flex flex-col justify-between h-[270px] sm:h-[340px] relative border border-slate-100 hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300"
       >
         {/* Discount Badge */}
         {product.discountPercent > 0 && (
-          <span className="absolute top-3 left-3 text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-blue-600 text-white z-10 shadow-sm">
+          <span className="absolute top-2.5 left-2.5 text-[9px] sm:text-[10px] font-black uppercase px-1.5 sm:px-2 py-0.5 rounded-md bg-blue-600 text-white z-10 shadow-sm">
             {product.discountPercent}% OFF
           </span>
         )}
 
         {/* Product Image via LazyImage */}
-        <div className="w-full h-36 rounded-xl bg-slate-50 flex items-center justify-center text-4xl mb-3 select-none relative group overflow-hidden border border-slate-100">
+        <div className="w-full h-20 sm:h-36 rounded-2xl bg-slate-50 flex items-center justify-center text-4xl mb-2 sm:mb-3 select-none relative group overflow-hidden border border-slate-100">
           <LazyImage
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-contain p-2 select-none group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-contain p-1 sm:p-2 select-none group-hover:scale-105 transition-transform duration-300 rounded-2xl"
           />
         </div>
 
@@ -206,29 +206,29 @@ export default function ProductGrid({
         <div className="flex-grow flex flex-col justify-between">
           <div>
             {/* Delivery time badge */}
-            <div className="flex items-center gap-1 text-[10px] font-black text-[#0c831f] mb-1.5">
-              <Clock className="w-3.5 h-3.5 fill-[#0c831f]/10 text-[#0c831f]" />
+            <div className="flex items-center gap-1 text-[9px] sm:text-[10px] font-black text-[#0c831f] mb-1">
+              <Clock className="w-3 sm:w-3.5 h-3 sm:h-3.5 fill-[#0c831f]/10 text-[#0c831f]" />
               <span>15 MINS</span>
             </div>
 
             {/* Product Name */}
-            <h4 className="text-xs md:text-sm font-extrabold text-slate-800 leading-snug line-clamp-2 mb-1">
+            <h4 className="text-[11px] sm:text-xs md:text-sm font-extrabold text-slate-800 leading-tight line-clamp-2 mb-0.5">
               {product.name}
             </h4>
 
             {/* Weight/Quantity text */}
-            <span className="text-[11px] text-slate-500 font-semibold block mb-2">
+            <span className="text-[10px] sm:text-[11px] text-slate-500 font-semibold block mb-1">
               {product.weight || "1 unit"}
             </span>
           </div>
 
           {/* Pricing & Cart Action */}
-          <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 mt-2 pt-2 border-t border-slate-100">
             <div>
-              <div className="flex items-baseline gap-1">
-                <span className="text-sm font-black text-slate-900">₹{product.price}</span>
+              <div className="flex flex-wrap items-baseline gap-1">
+                <span className="text-xs sm:text-sm font-black text-slate-900">₹{product.price}</span>
                 {product.originalPrice > product.price && (
-                  <span className="text-xs text-slate-400 line-through font-semibold">
+                  <span className="text-[10px] sm:text-xs text-slate-400 line-through font-semibold">
                     ₹{product.originalPrice}
                   </span>
                 )}
@@ -236,30 +236,32 @@ export default function ProductGrid({
             </div>
 
             {/* Premium ADD/Inc-Dec buttons */}
-            {qty > 0 ? (
-              <div className="flex items-center justify-between w-[80px] bg-[#0c831f] text-white rounded-lg px-2.5 py-1.5 shadow-md shadow-success-green/10 font-black text-xs transition-all select-none">
+            <div className="flex justify-end w-full sm:w-auto">
+              {qty > 0 ? (
+                <div className="flex items-center justify-between w-full sm:w-[80px] bg-[#0c831f] text-white rounded-lg px-2 py-1 shadow-md shadow-success-green/10 font-black text-[10px] sm:text-xs transition-all select-none">
+                  <button
+                    onClick={() => handleQtyChange(product.id, qty, -1)}
+                    className="hover:scale-125 active:scale-95 transition-transform cursor-pointer font-black text-xs sm:text-sm px-1.5"
+                  >
+                    -
+                  </button>
+                  <span className="font-extrabold">{qty}</span>
+                  <button
+                    onClick={() => handleQtyChange(product.id, qty, 1)}
+                    className="hover:scale-125 active:scale-95 transition-transform cursor-pointer font-black text-xs sm:text-sm px-1.5"
+                  >
+                    +
+                  </button>
+                </div>
+              ) : (
                 <button
-                  onClick={() => handleQtyChange(product.id, qty, -1)}
-                  className="hover:scale-125 active:scale-95 transition-transform cursor-pointer font-black text-sm"
+                  onClick={() => handleAdd(product)}
+                  className="w-full sm:w-auto px-3 sm:px-5 py-1 rounded-lg border border-[#0c831f] bg-white text-[#0c831f] font-extrabold text-[10px] sm:text-xs hover:bg-[#0c831f]/5 transition-colors cursor-pointer uppercase shadow-sm select-none"
                 >
-                  -
+                  ADD
                 </button>
-                <span>{qty}</span>
-                <button
-                  onClick={() => handleQtyChange(product.id, qty, 1)}
-                  className="hover:scale-125 active:scale-95 transition-transform cursor-pointer font-black text-sm"
-                >
-                  +
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => handleAdd(product)}
-                className="px-5 py-1.5 rounded-lg border border-[#0c831f] bg-white text-[#0c831f] font-extrabold text-xs hover:bg-[#0c831f]/5 transition-colors cursor-pointer uppercase shadow-sm select-none"
-              >
-                ADD
-              </button>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -350,9 +352,34 @@ export default function ProductGrid({
           </h2>
         </div>
 
-        <div className="flex gap-6 items-start">
-          {/* LEFT SIDEBAR: Subcategories (Vertical panel) */}
-          <div className="w-64 shrink-0 bg-white/80 backdrop-blur rounded-2xl border border-slate-100 p-3 sticky top-24 shadow-sm flex flex-col gap-1 max-h-[calc(100vh-160px)] overflow-y-auto no-scrollbar scrollbar-none">
+        {/* Horizontal scrollbar subcategories for mobile/tablet */}
+        <div className="flex md:hidden overflow-x-auto gap-2 pb-3 mb-4 w-full no-scrollbar scrollbar-none">
+          {subcategories.map((sub) => {
+            const isActive = activeSubcategory === sub;
+            return (
+              <button
+                key={sub}
+                onClick={() => {
+                  if (soundEnabled) sfx.play('click');
+                  setActiveSubcategory(sub);
+                  setVisibleCount(8);
+                }}
+                className={`flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-black shrink-0 transition-all select-none border ${
+                  isActive
+                    ? "bg-[#0c831f] border-transparent text-white shadow-sm"
+                    : "bg-white border-slate-100 text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                <span>{getSubcategoryEmoji(sub)}</span>
+                <span>{sub}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-6 items-start">
+          {/* LEFT SIDEBAR: Subcategories (Vertical panel) - Hidden on mobile, shown on desktop */}
+          <div className="hidden md:flex md:flex-col w-56 lg:w-64 shrink-0 bg-white/80 backdrop-blur rounded-2xl border border-slate-100 p-3 sticky top-24 shadow-sm gap-1 max-h-[calc(100vh-160px)] overflow-y-auto no-scrollbar scrollbar-none">
             {subcategories.map((sub) => {
               const isActive = activeSubcategory === sub;
               return (
@@ -381,7 +408,7 @@ export default function ProductGrid({
           </div>
 
           {/* RIGHT PANEL: Product Grid with Infinite Scroll */}
-          <div className="flex-grow">
+          <div className="flex-grow w-full">
             {filteredProducts.length > 0 ? (
               <div>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
