@@ -25,10 +25,14 @@ const ProductSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   originalPrice: { type: Number, required: true },
   category: { type: String, required: true },
+  subcategory: { type: String, default: "" },
+  weight: { type: String, default: "" },
+  discountPercent: { type: Number, default: 0 },
   rating: { type: Number, required: true },
   reviews: { type: Number, required: true },
   badge: { type: String, default: null },
   emoji: { type: String, required: true },
+  image: { type: String, required: true },
   fridgeStock: { type: Number, default: 0 },
   fridgeQuantityText: { type: String, default: "" }
 });
