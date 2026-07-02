@@ -166,19 +166,79 @@ export default function InstantCooking({
   // Find actual store product mapping to sync with cart
   const getStoreProduct = (ingName) => {
     const lower = ingName.toLowerCase();
-    if (lower.includes('milk')) return products.find(p => p.id === 'p28');
-    if (lower.includes('egg')) return products.find(p => p.id === 'p31');
-    if (lower.includes('tomato')) return products.find(p => p.id === 'p26');
-    if (lower.includes('butter')) return products.find(p => p.id === 'p30');
-    if (lower.includes('bread') || lower.includes('toast')) return products.find(p => p.id === 'p29');
-    if (lower.includes('yogurt')) return products.find(p => p.id === 'p32');
-    if (lower.includes('cashew')) return products.find(p => p.id === 'p40');
-    if (lower.includes('cookie')) return products.find(p => p.id === 'p38');
-    if (lower.includes('strawberry') || lower.includes('strawberries')) return products.find(p => p.id === 'p8');
-    if (lower.includes('banana') || lower.includes('bananas')) return products.find(p => p.id === 'p25');
-    if (lower.includes('spinach')) return products.find(p => p.id === 'p10');
+    
+    // Explicit mappings for common recipe ingredients
+    if (lower.includes('milk')) {
+      return products.find(p => p.id === 'p28') || 
+             products.find(p => p.name.toLowerCase().includes('toned milk')) ||
+             products.find(p => p.name.toLowerCase().includes('whole milk')) ||
+             products.find(p => p.name.toLowerCase().includes('milk'));
+    }
+    if (lower.includes('egg')) {
+      return products.find(p => p.id === 'p31') || 
+             products.find(p => p.name.toLowerCase().includes('egg'));
+    }
+    if (lower.includes('tomato')) {
+      return products.find(p => p.id === 'p26') || 
+             products.find(p => p.name.toLowerCase().includes('tomato'));
+    }
+    if (lower.includes('butter')) {
+      return products.find(p => p.id === 'p30') || 
+             products.find(p => p.name.toLowerCase().includes('butter'));
+    }
+    if (lower.includes('bread') || lower.includes('toast')) {
+      return products.find(p => p.id === 'p29') || 
+             products.find(p => p.name.toLowerCase().includes('bread'));
+    }
+    if (lower.includes('yogurt')) {
+      return products.find(p => p.id === 'p32') || 
+             products.find(p => p.name.toLowerCase().includes('yogurt'));
+    }
+    if (lower.includes('cashew')) {
+      return products.find(p => p.id === 'p40') || 
+             products.find(p => p.name.toLowerCase().includes('cashew'));
+    }
+    if (lower.includes('cookie')) {
+      return products.find(p => p.id === 'p38') || 
+             products.find(p => p.name.toLowerCase().includes('cookie'));
+    }
+    if (lower.includes('strawberry') || lower.includes('strawberries')) {
+      return products.find(p => p.id === 'p8') || 
+             products.find(p => p.name.toLowerCase().includes('strawberry'));
+    }
+    if (lower.includes('banana') || lower.includes('bananas')) {
+      return products.find(p => p.id === 'p25') || 
+             products.find(p => p.name.toLowerCase().includes('banana'));
+    }
+    if (lower.includes('spinach')) {
+      return products.find(p => p.id === 'p10') || 
+             products.find(p => p.name.toLowerCase().includes('spinach'));
+    }
+    if (lower === 'salt' || lower.includes('salt')) {
+      return products.find(p => p.id === 'p309') ||
+             products.find(p => p.name.toLowerCase().includes('tata salt')) ||
+             products.find(p => p.name.toLowerCase().includes('table salt')) ||
+             products.find(p => p.name.toLowerCase().includes('iodized salt')) ||
+             products.find(p => p.name.toLowerCase().includes('salt') && 
+                            !p.name.toLowerCase().includes('popcorn') && 
+                            !p.name.toLowerCase().includes('peanut') && 
+                            !p.name.toLowerCase().includes('chip') && 
+                            !p.name.toLowerCase().includes('butter'));
+    }
+    if (lower === 'oil' || lower.includes('oil')) {
+      return products.find(p => p.id === 'p310') ||
+             products.find(p => p.name.toLowerCase().includes('refined oil')) ||
+             products.find(p => p.name.toLowerCase().includes('mustard oil')) ||
+             products.find(p => p.name.toLowerCase().includes('cooking oil')) ||
+             products.find(p => p.name.toLowerCase().includes('olive oil')) ||
+             products.find(p => p.name.toLowerCase().includes('oil') && 
+                            !p.name.toLowerCase().includes('toilet') && 
+                            !p.name.toLowerCase().includes('baby oil') && 
+                            !p.name.toLowerCase().includes('hair oil'));
+    }
+    
     // Generic match
-    return products.find(p => p.name.toLowerCase().includes(lower));
+    return products.find(p => p.name.toLowerCase().includes(lower) && !p.name.toLowerCase().includes('toilet'));
   };
 
   // Handle adding custom ingredient
